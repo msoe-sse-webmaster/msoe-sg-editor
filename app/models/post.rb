@@ -7,7 +7,7 @@ class PostImage
 end
   
 ##
-# An object representing a post on the SSE website
+# An object representing a post on the SG website
 class Post
   attr_accessor :title
   attr_accessor :author

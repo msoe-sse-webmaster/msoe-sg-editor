@@ -11,6 +11,7 @@ module ErrorHandlers
   # +clazz+::the class that this module was included in
   def self.included(clazz)
     clazz.class_eval do 
+      # The rate limit as of 12/23/19 is 5000 request per hour with Basic Auth
       rescue_from Octokit::TooManyRequests, with: :rate_limit_error
     end
   end
