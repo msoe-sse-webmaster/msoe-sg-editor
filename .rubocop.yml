@@ -1,0 +1,39 @@
+inherit_gem:
+  rubocop-rails_config:
+    - config/rails.yml
+
+AllCops:
+  Exclude:
+    - 'bin/*'
+    - 'config/**/*.rb'
+    - 'node_modules/**/*'
+
+ClassAndModuleChildren:
+  EnforcedStyle: compact
+
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: never
+
+Style/WordArray:
+  EnforcedStyle: brackets
+
+Style/SymbolArray:
+  EnforcedStyle: brackets
+
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
+
+Layout/LineLength:
+  Max: 120
+
+Metrics/BlockLength:
+  Max: 75 # This is more than double from the default because our automated tests use blocks instead of methods
+
+Metrics/MethodLength:
+  Max: 25
+
+Metrics/ClassLength:
+  Enabled: false
+
+Layout/TrailingWhitespace:
+  Enabled: false
