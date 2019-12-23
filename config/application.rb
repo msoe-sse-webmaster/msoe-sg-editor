@@ -28,5 +28,9 @@ module MsoeSgEditor
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
+    config.github_org = 'msoe-sse'
+    config.webmaster_github_username = 'msoe-sse-webmaster'
+    config.pull_request_body = 'This pull request was opened automatically by the SG website editor.'
+    config.default_hero = 'https://source.unsplash.com/collection/145103/'
   end
 end
