@@ -9,7 +9,7 @@ AllCops:
     - 'node_modules/**/*'
 
 ClassAndModuleChildren:
-  EnforcedStyle: compact
+  EnforcedStyle: nested
 
 Style/FrozenStringLiteralComment:
   EnforcedStyle: never
