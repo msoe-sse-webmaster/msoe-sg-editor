@@ -237,7 +237,12 @@ published: true
 ######H6 header)
 
     # Act
-    result = @kramdown_service.create_jekyll_post_text(markdown_text, 'Andy Wojciechowski', 'Some Post', '', 'green', '')
+    result = @kramdown_service.create_jekyll_post_text(markdown_text, 
+                                                       'Andy Wojciechowski', 
+                                                       'Some Post', 
+                                                       '', 
+                                                       'green', 
+                                                       '')
 
     # Assert
     assert_equal expected_post, result

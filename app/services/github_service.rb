@@ -219,7 +219,7 @@ module Services
       def get_open_post_editor_pull_requests
         client = create_octokit_client
         open_pull_requests = client.pull_requests(full_repo_name, state: 'open')
-        open_pull_requests.select { |x| x[:body] == Rails.configuration.pull_request_body}
+        open_pull_requests.select { |x| x[:body] == Rails.configuration.pull_request_body }
       end
 
       def create_post_image(filename, contents)

@@ -58,9 +58,12 @@ class GithubServiceTest < ActiveSupport::TestCase
     Base64.expects(:decode64).with('post 2 base 64 content').returns('post 2 text content')
     Base64.expects(:decode64).with('post 3 base 64 content').returns('post 3 text content')
     
-    Factories::PostFactory.any_instance.expects(:create_post).with('post 1 text content', '_posts/post1.md', nil).returns(post1_model)
-    Factories::PostFactory.any_instance.expects(:create_post).with('post 2 text content', '_posts/post2.md', nil).returns(post2_model)
-    Factories::PostFactory.any_instance.expects(:create_post).with('post 3 text content', '_posts/post3.md', nil).returns(post3_model)
+    Factories::PostFactory.any_instance.expects(:create_post)
+                          .with('post 1 text content', '_posts/post1.md', nil).returns(post1_model)
+    Factories::PostFactory.any_instance.expects(:create_post)
+                          .with('post 2 text content', '_posts/post2.md', nil).returns(post2_model)
+    Factories::PostFactory.any_instance.expects(:create_post)
+                          .with('post 3 text content', '_posts/post3.md', nil).returns(post3_model)
 
     # Act
     result = @github_service.get_all_posts
@@ -105,7 +108,8 @@ class GithubServiceTest < ActiveSupport::TestCase
                    .returns(image_content) 
     
     Base64.expects(:decode64).with('PR base 64 content').returns('PR content')
-    Factories::PostFactory.any_instance.expects(:create_post).with('PR content', 'sample.md', 'myref').returns(post_model)
+    Factories::PostFactory.any_instance.expects(:create_post)
+                          .with('PR content', 'sample.md', 'myref').returns(post_model)
 
     # Act
     result = @github_service.get_all_posts_in_pr

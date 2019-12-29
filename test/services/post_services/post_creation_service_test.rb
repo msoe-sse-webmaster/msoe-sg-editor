@@ -39,7 +39,8 @@ class PostCreationService < ActiveSupport::TestCase
     post_file_path = "_posts/#{DateTime.now.strftime('%Y-%m-%d')}-TestPost.md"
     
     Services::GithubService.any_instance.expects(:get_master_head_sha).returns('master head sha')
-    Services::GithubService.any_instance.expects(:get_base_tree_for_branch).with('master head sha').returns('master tree sha')
+    Services::GithubService.any_instance.expects(:get_base_tree_for_branch)
+                           .with('master head sha').returns('master tree sha')
     Services::GithubService.any_instance.expects(:create_ref_if_necessary)
                            .with('heads/createPostTestPost', 'master head sha').once
     Services::GithubService.any_instance.expects(:create_text_blob).with('# hello').returns('post blob sha')
@@ -87,7 +88,8 @@ class PostCreationService < ActiveSupport::TestCase
     PostImageManager.instance.expects(:clear).once
     
     Services::GithubService.any_instance.expects(:get_master_head_sha).returns('master head sha')
-    Services::GithubService.any_instance.expects(:get_base_tree_for_branch).with('master head sha').returns('master tree sha')
+    Services::GithubService.any_instance.expects(:get_base_tree_for_branch)
+                           .with('master head sha').returns('master tree sha')
     Services::GithubService.any_instance.expects(:create_ref_if_necessary)
                            .with('heads/createPostTestPost', 'master head sha').once
     Services::GithubService.any_instance.expects(:create_text_blob).with(test_markdown).returns('post blob sha')
