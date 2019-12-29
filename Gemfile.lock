@@ -245,7 +245,7 @@ DEPENDENCIES
   jquery-rails
   kramdown
   mocha
-  octokit (~> 4.0)
+  octokit (~> 4.14.0)
   puma (~> 4.1)
   rails (~> 6.0.2)
   rubocop (~> 0.71)

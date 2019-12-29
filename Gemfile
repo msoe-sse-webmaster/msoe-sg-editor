@@ -42,7 +42,7 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-gem 'octokit', '~> 4.0'
+gem 'octokit', '~> 4.14.0'
 
 gem 'rubocop', '~> 0.71'
 gem 'rubocop-rails_config'
