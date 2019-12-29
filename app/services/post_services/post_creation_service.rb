@@ -1,3 +1,5 @@
+##
+# This class is responsible for creating posts on the SG website
 class Services::PostCreationService < BasePostService
   def initialize
     super

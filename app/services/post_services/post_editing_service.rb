@@ -1,3 +1,5 @@
+##
+# This class is responsible for editing posts on the SG website
 class Services::PostEditingService < BasePostService
   def initialize
     super

@@ -35,6 +35,8 @@ module Kramdown::Converter
   end
 end
 
+##
+# This class contains all operations with interacting with the kramdown engine
 class Services::KramdownService
   ##
   # This method takes given markdown and converts it to HTML for the post preview

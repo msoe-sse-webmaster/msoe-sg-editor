@@ -3,6 +3,8 @@ require 'base64'
 require 'date'
 require 'cgi'
 
+##
+# This class contains all operations involving interacting with the GitHub API
 class Services::GithubService
   USERNAME = ENV['GH_SERVICE_ACCOUNT_USERNAME']
   PASSWORD = ENV['GH_SERVICE_ACCOUNT_PASSWORD']

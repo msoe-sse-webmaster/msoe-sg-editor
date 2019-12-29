@@ -1,3 +1,5 @@
+##
+# This class is responsible for editing posts that are in PR on the SG website
 class Services::PostPullRequestEditingService < BasePostService
   def initialize
     super

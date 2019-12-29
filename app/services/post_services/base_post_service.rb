@@ -1,3 +1,5 @@
+##
+# The base class for service classes responsible for performing operations on posts
 class Services::BasePostService
   def initialize
     @github_service = GithubService.new
@@ -10,7 +12,7 @@ class Services::BasePostService
       create_image_blobs(post_markdown, file_information)
       @github_service.create_new_tree_with_blobs(file_information, sha_base_tree)
     end
-    
+
   private
     def create_blob_for_post(post_markdown, post_title, post_file_path)
       blob_sha = @github_service.create_text_blob(post_markdown)
