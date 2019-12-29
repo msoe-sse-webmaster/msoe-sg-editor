@@ -30,25 +30,9 @@ class GithubServiceTest < ActiveSupport::TestCase
     post3_model = create_post_model(title: 'post 3', author: 'Sabrina Stangler', hero: 'hero 3',
                                      overlay: 'overlay 3', contents: '###post3', tags: ['info'])
 
-    Octokit::Client.any_instance.expects(:commits)
-                                .with('msoe-sse/msoe-sg-editor-test-repo', path: '_posts/post1.md')
-                                .returns([ create_commit_hash('2011-04-14T16:00:49Z', 'andy-wojciechowski'),
-                                           create_commit_hash('2011-05-14T16:00:49Z', 'andy-wojciechowski')])
-    
-    Octokit::Client.any_instance.expects(:commits)
-                                .with('msoe-sse/msoe-sg-editor-test-repo', path: '_posts/post2.md')
-                                .returns([ create_commit_hash('2011-04-14T16:00:49Z', 'GFLEMING133'),
-                                           create_commit_hash('2012-04-14T16:00:49Z', 'andy-wojciechowski') ])
-    
-    Octokit::Client.any_instance.expects(:commits)
-                                .with('msoe-sse/msoe-sg-editor-test-repo', path: '_posts/post3.md')
-                                .returns([ create_commit_hash('2011-04-14T16:00:49Z', 'andy-wojciechowski') ])
-
-    Octokit::Client.any_instance.expects(:user).returns(login: 'andy-wojciechowski').at_least_once
-
     Services::KramdownService.any_instance.expects(:get_all_image_paths).with(post1_markdown)
                              .returns(['assets/img/My File1.jpg', 'assets/img/My File2.jpg'])
-    Services::KramdownService.any_instance.expects(:get_all_image_paths).with('##post2').never
+    Services::KramdownService.any_instance.expects(:get_all_image_paths).with('##post2').returns([])
     Services::KramdownService.any_instance.expects(:get_all_image_paths).with('###post3').returns([])
 
     Octokit::Client.any_instance.expects(:contents)
@@ -59,7 +43,7 @@ class GithubServiceTest < ActiveSupport::TestCase
                    .returns(post1_content)
     Octokit::Client.any_instance.expects(:contents)
                    .with('msoe-sse/msoe-sg-editor-test-repo', path: '_posts/post2.md')
-                   .returns(post2_content).never
+                   .returns(post2_content)
     Octokit::Client.any_instance.expects(:contents)
                    .with('msoe-sse/msoe-sg-editor-test-repo', path: '_posts/post3.md')
                    .returns(post3_content)
@@ -71,18 +55,18 @@ class GithubServiceTest < ActiveSupport::TestCase
                    .returns(image2_content)
 
     Base64.expects(:decode64).with('post 1 base 64 content').returns('post 1 text content')
-    Base64.expects(:decode64).with('post 2 base 64 content').returns('post 2 text content').never
+    Base64.expects(:decode64).with('post 2 base 64 content').returns('post 2 text content')
     Base64.expects(:decode64).with('post 3 base 64 content').returns('post 3 text content')
     
-    Factories::PostFactory.expects(:create_post).with('post 1 text content', '_posts/post1.md', nil).returns(post1_model)
-    Factories::PostFactory.expects(:create_post).with('post 2 text content', '_posts/post2.md', nil).returns(post2_model).never
-    Factories::PostFactory.expects(:create_post).with('post 3 text content', '_posts/post3.md', nil).returns(post3_model)
+    Factories::PostFactory.any_instance.expects(:create_post).with('post 1 text content', '_posts/post1.md', nil).returns(post1_model)
+    Factories::PostFactory.any_instance.expects(:create_post).with('post 2 text content', '_posts/post2.md', nil).returns(post2_model)
+    Factories::PostFactory.any_instance.expects(:create_post).with('post 3 text content', '_posts/post3.md', nil).returns(post3_model)
 
     # Act
     result = @github_service.get_all_posts
 
     # Assert
-    assert_equal [post1_model, post3_model], result
+    assert_equal [post1_model, post2_model, post3_model], result
 
     assert_equal 2, post1_model.images.length
     assert_post_image('assets/img/My File1.jpg', 'imagecontents1', post1_model.images[0])
@@ -97,8 +81,6 @@ class GithubServiceTest < ActiveSupport::TestCase
     image_content = create_dummy_api_resource(content: 'imagecontents', path: 'sample.jpeg')
     post_model = create_post_model(title: 'post', author: 'Andy Wojciechowski', hero: 'hero',
                                    overlay: 'overlay', contents: '#post', tags: ['announcement', 'info'])
-
-    Octokit::Client.any_instance.expects(:user).returns(login: 'andy-wojciechowski').at_least_once
 
     Octokit::Client.any_instance.expects(:pull_requests).with('msoe-sse/msoe-sg-editor-test-repo', state: 'open')
                    .returns([create_pull_request_hash('andy-wojciechowski', 'My Pull Request Body', 2),
@@ -123,7 +105,7 @@ class GithubServiceTest < ActiveSupport::TestCase
                    .returns(image_content) 
     
     Base64.expects(:decode64).with('PR base 64 content').returns('PR content')
-    Factories::PostFactory.expects(:create_post).with('PR content', 'sample.md', 'myref').returns(post_model)
+    Factories::PostFactory.any_instance.expects(:create_post).with('PR content', 'sample.md', 'myref').returns(post_model)
 
     # Act
     result = @github_service.get_all_posts_in_pr
@@ -198,8 +180,7 @@ class GithubServiceTest < ActiveSupport::TestCase
     post3_model = create_post_model(title: 'post 3', author: 'Sabrina Stangler', hero: 'hero 3',
                                     overlay: 'overlay 3', contents: '###post3', tags: ['info'])
 
-    @github_service.expects(:get_all_posts_in_pr_for_user)
-                   .with('my token').returns([post1_model, post2_model, post3_model])
+    @github_service.expects(:get_all_posts_in_pr).returns([post1_model, post2_model, post3_model])
 
     # Act
     result = @github_service.get_post_by_title('post 2', 'ref')

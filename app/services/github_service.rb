@@ -10,6 +10,11 @@ module Services
     USERNAME = ENV['GH_SERVICE_ACCOUNT_USERNAME']
     PASSWORD = ENV['GH_SERVICE_ACCOUNT_PASSWORD']
 
+    def initialize
+      @kramdown_service = Services::KramdownService.new
+      @post_factory = Factories::PostFactory.new
+    end
+
     ##
     # This method fetches all the markdown contents of all the posts on the SG website
     # that have been written and returns a list of models representing a Post.
@@ -21,7 +26,7 @@ module Services
         post_api_response = client.contents(full_repo_name, path: post.path)
 
         post_model = create_post_from_api_response(post_api_response, nil)
-        image_paths = KramdownService.get_all_image_paths(post_model.contents)
+        image_paths = @kramdown_service.get_all_image_paths(post_model.contents)
 
         images = []
         image_paths.each do | image_path |
@@ -79,7 +84,7 @@ module Services
     # +ref+::a sha for a ref indicating the head of a branch a post is pushed to on the GitHub server
     def get_post_by_title(title, ref)
       result = nil
-      result = get_all_posts_in_pr_for_user.find { |x| x.title == title } if ref
+      result = get_all_posts_in_pr.find { |x| x.title == title } if ref
       result = get_all_posts.find { |x| x.title == title } if !ref
       result.images.each { |x| PostImageManager.instance.add_downloaded_image(x) } if result
       result
@@ -208,7 +213,7 @@ module Services
         # Base64.decode64 will convert our string into a ASCII string
         # calling force_encoding('UTF-8') will fix that problem
         text_contents = Base64.decode64(post.content).force_encoding('UTF-8')
-        PostFactory.create_post(text_contents, post.path, ref)
+        @post_factory.create_post(text_contents, post.path, ref)
       end
 
       def get_open_post_editor_pull_requests
