@@ -1,5 +1,5 @@
 require 'test_helper'
-require 'mocha/setup'
+require 'mocha/minitest'
 require 'octokit'
 require 'base64'
 require 'date'

@@ -1,5 +1,5 @@
 require 'test_helper'
-require 'mocha/setup'
+require 'mocha/minitest'
 
 class KramdownServiceTest < ActiveSupport::TestCase
   LEAD_BREAK_SECTION = "{: .lead}\r\n<!–-break-–>"

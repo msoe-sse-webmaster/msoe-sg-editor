@@ -1,5 +1,5 @@
 require 'test_helper'
-require 'mocha/setup'
+require 'mocha/minitest'
 
 class PostImageManagerTest < ActiveSupport::TestCase
   setup do
