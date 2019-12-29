@@ -1,4 +1,4 @@
-class PostEditingService < ActiveSupport::TestCase
+class PostEditingServiceTest < ActiveSupport::TestCase
   setup do
     @post_editing_service = Services::PostEditingService.new
   end

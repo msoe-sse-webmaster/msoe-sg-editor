@@ -1,4 +1,4 @@
-class PostCreationService < ActiveSupport::TestCase
+class PostCreationServiceTest < ActiveSupport::TestCase
   setup do
     @post_creation_service = Services::PostCreationService.new
   end
