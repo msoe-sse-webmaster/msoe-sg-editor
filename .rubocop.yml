@@ -8,7 +8,7 @@ AllCops:
     - 'config/**/*.rb'
     - 'node_modules/**/*'
 
-ClassAndModuleChildren:
+Style/ClassAndModuleChildren:
   EnforcedStyle: nested
 
 Style/FrozenStringLiteralComment:
